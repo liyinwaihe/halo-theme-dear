@@ -1,0 +1,30 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="|${author.displayName} - ${site.title}|"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <h1>
+      <span th:text="#{theme.author_posts}">作者</span>
+      <span th:text="${author.displayName}"></span>
+    </h1>
+    <p
+      class="intro"
+      th:if="${not #strings.isEmpty(author.bio)}"
+      th:text="${author.bio}"
+    ></p>
+
+    <th:block th:if="${not #lists.isEmpty(posts.items)}">
+      <th:block
+        th:replace="~{modules/post-list :: list(items=${posts.items})}"
+      ></th:block>
+    </th:block>
+    <p class="empty-note" th:if="${#lists.isEmpty(posts.items)}" th:text="#{theme.no_posts}"></p>
+
+    <nav th:replace="~{modules/pagination :: pager(pagination=${posts})}"></nav>
+  </th:block>
+</html>

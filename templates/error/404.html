@@ -1,0 +1,17 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="${#messages.msg('theme.error_404_title') + ' - ' + site.title}"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <h1 th:text="${error?.status ?: 404}">404</h1>
+    <p class="intro" th:text="#{theme.error_hint}">这个页面可能已经被移动或删除。</p>
+    <p class="pager">
+      <a th:href="@{/}" th:text="#{theme.not_found_home}">回到首页</a>
+    </p>
+  </th:block>
+</html>

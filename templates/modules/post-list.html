@@ -1,0 +1,21 @@
+<ul
+  th:fragment="list (items)"
+  xmlns:th="https://www.thymeleaf.org"
+  class="posts"
+>
+  <li th:each="post : ${items}">
+    <span class="post-date">
+      <time
+        th:datetime="${post.spec.publishTime}"
+        th:text="${post.spec.publishTime != null ? #temporals.format(post.spec.publishTime, 'yyyy-MM-dd') : ''}"
+      ></time>
+    </span>
+    <div class="post-main">
+      <th:block th:if="${not #lists.isEmpty(post.categories)}">
+        <span class="post-cat" th:text="${post.categories[0].spec.displayName}"></span>
+        <span class="dot">·</span>
+      </th:block>
+      <a th:href="@{${post.status.permalink}}" th:text="${post.spec.title}"></a>
+    </div>
+  </li>
+</ul>

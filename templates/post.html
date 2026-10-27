@@ -1,0 +1,65 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="|${post.spec.title} - ${site.title}|"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <article class="post">
+      <h1 th:text="${post.spec.title}"></h1>
+
+      <p class="post-meta">
+        <time
+          th:datetime="${post.spec.publishTime}"
+          th:text="${post.spec.publishTime != null ? #temporals.format(post.spec.publishTime, 'yyyy-MM-dd') : ''}"
+        ></time>
+        <th:block th:if="${not #lists.isEmpty(post.categories)}">
+          <span class="dot">·</span>
+          <a
+            th:each="category : ${post.categories}"
+            th:href="@{${category.status.permalink}}"
+            th:text="${category.spec.displayName}"
+          ></a>
+        </th:block>
+      </p>
+
+      <div class="post-body" th:utext="${post.content.content}"></div>
+
+      <p class="tags" th:if="${not #lists.isEmpty(post.tags)}">
+        <a
+          th:each="tag : ${post.tags}"
+          th:href="@{${tag.status.permalink}}"
+          th:text="|#${tag.spec.displayName}|"
+        ></a>
+      </p>
+    </article>
+
+    <nav class="post-nav" th:with="cursor = ${postFinder.cursor(post.metadata.name)}">
+      <a
+        th:if="${cursor?.hasPrevious()}"
+        th:href="@{${cursor.previous.status.permalink}}"
+        th:text="|← ${cursor.previous.spec.title}|"
+      ></a>
+      <a
+        th:if="${cursor?.hasNext()}"
+        th:href="@{${cursor.next.status.permalink}}"
+        th:text="|${cursor.next.spec.title} →|"
+      ></a>
+    </nav>
+
+    <section class="comments" th:if="${haloCommentEnabled}">
+      <halo:comment
+        group="content.halo.run"
+        kind="Post"
+        th:attr="name=${post.metadata.name}"
+      />
+    </section>
+
+    <p class="pager">
+      <a th:href="@{/}" th:text="#{theme.back_home}">← 回首页</a>
+    </p>
+  </th:block>
+</html>

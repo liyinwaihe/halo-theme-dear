@@ -1,0 +1,32 @@
+<header th:fragment="header" xmlns:th="https://www.thymeleaf.org">
+  <a class="title" th:href="@{/}">
+    <h1 th:text="${site.title}">站点标题</h1>
+  </a>
+
+  <nav th:with="menu = ${menuFinder.getPrimary()}">
+    <p th:if="${menu != null and not #lists.isEmpty(menu.menuItems)}">
+      <a
+        th:each="item : ${menu.menuItems}"
+        th:href="@{${item.status.href}}"
+        th:text="${item.status.displayName}"
+        th:target="${item.spec.target?.value}"
+      ></a>
+    </p>
+  </nav>
+
+  <form
+    class="search-form"
+    th:if="${theme.config?.style?.show_search}"
+    th:action="@{/search}"
+    method="get"
+    role="search"
+  >
+    <input
+      type="search"
+      name="keyword"
+      th:placeholder="#{theme.search_placeholder}"
+      th:aria-label="#{theme.search_placeholder}"
+    />
+    <button type="submit" th:text="#{theme.search}">搜索</button>
+  </form>
+</header>

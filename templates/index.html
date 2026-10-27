@@ -1,0 +1,27 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = null, content = ~{::content})}"
+>
+  <th:block th:fragment="content">
+    <p
+      class="intro"
+      th:if="${not #strings.isEmpty(theme.config?.layout?.intro)}"
+      th:text="${theme.config?.layout?.intro}"
+    ></p>
+    <p
+      class="intro"
+      th:if="${#strings.isEmpty(theme.config?.layout?.intro) and not #strings.isEmpty(site.subtitle)}"
+      th:text="${site.subtitle}"
+    ></p>
+
+    <th:block th:if="${not #lists.isEmpty(posts.items)}">
+      <th:block
+        th:replace="~{modules/post-list :: list(items=${posts.items})}"
+      ></th:block>
+    </th:block>
+    <p class="empty-note" th:if="${#lists.isEmpty(posts.items)}" th:text="#{theme.no_posts}"></p>
+
+    <nav th:replace="~{modules/pagination :: pager(pagination=${posts})}"></nav>
+  </th:block>
+</html>

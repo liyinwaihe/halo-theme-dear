@@ -1,0 +1,20 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="${#messages.msg('theme.all_categories') + ' - ' + site.title}"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <h1 th:text="#{theme.all_categories}">分类</h1>
+
+    <th:block th:if="${not #lists.isEmpty(categories)}">
+      <th:block
+        th:replace="~{modules/category-tree :: tree(categories=${categories})}"
+      ></th:block>
+    </th:block>
+    <p class="empty-note" th:if="${#lists.isEmpty(categories)}" th:text="#{theme.no_categories}"></p>
+  </th:block>
+</html>

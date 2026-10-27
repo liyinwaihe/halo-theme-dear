@@ -1,0 +1,31 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="|${tag.spec.displayName} - ${site.title}|"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <h1>
+      <span th:text="#{theme.tagged}">标签</span>
+      <span th:text="${tag.spec.displayName}"></span>
+    </h1>
+
+    <th:block th:if="${not #lists.isEmpty(posts.items)}">
+      <th:block
+        th:replace="~{modules/post-list :: list(items=${posts.items})}"
+      ></th:block>
+    </th:block>
+    <p class="empty-note" th:if="${#lists.isEmpty(posts.items)}" th:text="#{theme.no_posts}"></p>
+
+    <nav th:replace="~{modules/pagination :: pager(pagination=${posts})}"></nav>
+
+    <p class="pager">
+      <a th:href="@{${site.routes?.tagsUri ?: '/tags'}}"
+        >← <span th:text="#{theme.all_tags}">标签</span></a
+      >
+    </p>
+  </th:block>
+</html>

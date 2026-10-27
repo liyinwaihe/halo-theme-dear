@@ -1,0 +1,18 @@
+<nav
+  th:fragment="pager (pagination)"
+  xmlns:th="https://www.thymeleaf.org"
+  class="pager"
+  th:if="${pagination != null and (pagination.hasPrevious() or pagination.hasNext())}"
+>
+  <a
+    th:if="${pagination.hasPrevious()}"
+    th:href="@{${pagination.prevUrl}}"
+    th:text="#{theme.previous}"
+  >上一页</a>
+  <span th:text="|${pagination.page} / ${pagination.totalPages}|"></span>
+  <a
+    th:if="${pagination.hasNext()}"
+    th:href="@{${pagination.nextUrl}}"
+    th:text="#{theme.next}"
+  >下一页</a>
+</nav>

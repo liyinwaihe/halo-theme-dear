@@ -1,0 +1,22 @@
+apiVersion: theme.halo.run/v1alpha1
+kind: Theme
+metadata:
+  # 必须与主题文件夹名称一致，否则静态资源无法正常加载
+  name: theme-dear
+spec:
+  displayName: Dear
+  author:
+    name: liyinwaihe
+    website: https://cs.liyinwaihe.com
+  description: 极简单色纸感的中文博客主题。单栏纯文本排版、黑白灰配色、亮暗双主题，复刻 Bear Blog 与 typecho-dear 的阅读体验。
+  logo: ""
+  homepage: https://github.com/liyinwaihe/halo-theme-dear
+  repo: https://github.com/liyinwaihe/halo-theme-dear
+  issues: https://github.com/liyinwaihe/halo-theme-dear/issues
+  settingName: "theme-dear-setting"
+  configMapName: "theme-dear-configmap"
+  version: 1.0.1
+  requires: ">=2.20.0"
+  license:
+    - name: "MIT"
+      url: "https://github.com/liyinwaihe/halo-theme-dear/blob/main/LICENSE"

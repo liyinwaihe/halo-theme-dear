@@ -1,0 +1,25 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, content = ~{::content})}"
+>
+  <th:block th:fragment="head">
+    <title th:text="${#messages.msg('theme.all_tags') + ' - ' + site.title}"></title>
+  </th:block>
+
+  <th:block th:fragment="content">
+    <h1 th:text="#{theme.all_tags}">标签</h1>
+
+    <div class="tag-cloud" th:if="${not #lists.isEmpty(tags)}">
+      <a
+        class="tag-chip"
+        th:each="tag : ${tags}"
+        th:href="@{${tag.status.permalink}}"
+      >
+        <span th:text="${tag.spec.displayName}"></span>
+        <span class="count-pill" th:text="${tag.postCount}"></span>
+      </a>
+    </div>
+    <p class="empty-note" th:if="${#lists.isEmpty(tags)}" th:text="#{theme.no_tags}"></p>
+  </th:block>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  th:lang="${#locale.toLanguageTag}"
+  th:fragment="html (head, content)"
+  th:attr="data-scheme=${theme.config?.style?.color_scheme ?: 'system'}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:if="${head == null}" th:text="${site.title}">站点标题</title>
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var pref = root.getAttribute('data-scheme') || 'system';
+        var saved = null;
+        try {
+          saved = localStorage.getItem('dear-color-scheme');
+        } catch (e) {}
+        var dark;
+        if (pref === 'dark') {
+          dark = true;
+        } else if (pref === 'light') {
+          dark = false;
+        } else if (saved === 'dark') {
+          dark = true;
+        } else if (saved === 'light') {
+          dark = false;
+        } else {
+          dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        if (dark) {
+          root.classList.add('dark');
+        }
+      })();
+    </script>
+    <link
+      rel="stylesheet"
+      th:href="@{/assets/css/style.css?v={v}(v=${theme.spec.version})}"
+    />
+    <th:block th:if="${head != null}">
+      <th:block th:replace="${head}" />
+    </th:block>
+  </head>
+  <body>
+    <header th:replace="~{modules/header :: header}"></header>
+    <main>
+      <th:block th:replace="${content}" />
+    </main>
+    <footer th:replace="~{modules/footer :: footer}"></footer>
+    <script th:src="@{/assets/js/main.js?v={v}(v=${theme.spec.version})}"></script>
+    <halo:footer />
+  </body>
+</html>

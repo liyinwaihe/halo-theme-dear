@@ -1,0 +1,17 @@
+<ul
+  th:fragment="tree (categories)"
+  xmlns:th="https://www.thymeleaf.org"
+  class="cat-tree"
+>
+  <li th:each="category : ${categories}">
+    <a th:href="@{${category.status.permalink}}">
+      <span th:text="${category.spec.displayName}"></span>
+      <span class="count-pill" th:text="${category.postCount}"></span>
+    </a>
+    <th:block th:if="${not #lists.isEmpty(category.children)}">
+      <th:block
+        th:replace="~{modules/category-tree :: tree(categories=${category.children})}"
+      ></th:block>
+    </th:block>
+  </li>
+</ul>
